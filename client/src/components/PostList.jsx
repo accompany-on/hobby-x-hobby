@@ -1,17 +1,11 @@
-import React from "react";
-
-function PostList() {
-  const postList = [
-    { title: "がらしい", text: "社長に就任しました！" },
-    { title: "トークン", text: "トーマスになっちゃった" },
-  ];
+function PostList({ postList }) {
   return (
     <>
       <div className="postList">
         {postList.map((post, index) => (
           <div className="post" key={index}>
             <p>タイトル：{post.title}</p>
-            <p>テキスト：{post.text}</p>
+            <p>テキスト：{post.comment}</p>
           </div>
         ))}
       </div>
