@@ -9,6 +9,7 @@ exports.up = function (knex) {
     table.foreign('user_id').references('users.id');
     table.string('title').notNullable();
     table.string('comment');
+    table.integer('tag_id');
     table.string('link');
     table.timestamps('created_at', true);
   });
