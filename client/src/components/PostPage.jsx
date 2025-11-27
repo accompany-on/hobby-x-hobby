@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 function PostPage() {
   const [postTag, setPostTag] = useState("");
+
   const tagList = [
     "PC界隈",
     "服界隈",
