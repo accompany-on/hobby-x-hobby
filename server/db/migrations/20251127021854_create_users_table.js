@@ -1,15 +1,13 @@
-const { table } = require('../../src/knex');
-
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
 exports.up = function (knex) {
-  return knex.schema.createTable('posts', (table) => {
+  return knex.schema.createTable('users', (table) => {
     table.increments('id').primary();
-    table.string('title').notNullable();
-    table.string('comment');
-    table.timestamps('created_at', true);
+    table.string('name').notNullable();
+    table.string('email').notNullable();
+    table.string('icon').defaultTo('/user_icon/default_icon.png');
   });
 };
 
@@ -18,5 +16,5 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return knex.schema.dropTableIfExists('posts');
+  return knex.schema.dropTableIfExists('users');
 };
