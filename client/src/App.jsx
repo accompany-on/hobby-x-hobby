@@ -1,5 +1,6 @@
 import { useState } from "react";
 import DropDown from "./components/DropDown";
+import PostList from "./PostList";
 
 import "./App.css";
 
@@ -10,6 +11,7 @@ function App() {
     <>
       <h1 className="title">HOBBY✖️HOBBY</h1>
       <DropDown tag={tag} setTag={setTag} />
+      <PostList />
     </>
   );
 }
