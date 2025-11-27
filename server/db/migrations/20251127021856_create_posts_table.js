@@ -11,7 +11,7 @@ exports.up = function (knex) {
     table.string('comment');
     table.integer('tag_id');
     table.string('link');
-    table.timestamps('created_at', true);
+    table.timestamps(true, true);
   });
 };
 
