@@ -4,6 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "db:migrate": "knex migrate:latest",
+    "db:migrate-make": "knex migrate:make",
+    "db:seed": "knex seed:run",
+    "db:seed-make": "knex seed:make",
+    "db:reset": "knex migrate:rollback --all && knex migrate:latest && knex seed:run",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
