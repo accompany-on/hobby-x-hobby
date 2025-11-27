@@ -1,6 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 
 function PostPage() {
+  const [postTag, setPostTag] = useState("");
+  const tagList = [
+    "PC界隈",
+    "服界隈",
+    "釣り界隈",
+    "キャンプ界隈",
+    "筋トレ界隈",
+  ];
+
   return (
     <>
       <h1>投稿画面</h1>
@@ -14,13 +23,29 @@ function PostPage() {
           <label>コメント : </label>
           <textarea />
         </div>
-        <div className="postValue">
+        {/* <div className="postValue">
           image :
           <input />
-        </div>
+        </div> */}
         <div className="postValue">
           URL :
           <input />
+        </div>
+        <div className="postValue">
+          タグ :
+          <select
+            value={postTag}
+            onChange={(e) => {
+              setPostTag(e.target.value);
+            }}
+            id="pet-select"
+          >
+            {tagList.map((item, i) => (
+              <option value={item} key={i}>
+                {item}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
     </>
