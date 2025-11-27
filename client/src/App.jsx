@@ -14,7 +14,7 @@ function App() {
     fetch('/api/posts')
       .then((data) => data.json())
       .then((data) => setPostList(data));
-  }, []);
+  }, [postList]);
 
   return (
     <>
