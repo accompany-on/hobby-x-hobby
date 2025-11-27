@@ -1,17 +1,30 @@
 import { useState } from "react";
 import DropDown from "./components/DropDown";
-import PostList from "./PostList";
+import PostList from "./components/PostList";
+import PostPage from "./components/PostPage";
 
 import "./App.css";
 
 function App() {
   const [tag, setTag] = useState("");
+  const [nav, setNav] = useState("top");
 
   return (
     <>
       <h1 className="title">HOBBY✖️HOBBY</h1>
-      <DropDown tag={tag} setTag={setTag} />
-      <PostList />
+      <button onClick={() => setNav("post")}>＋</button>
+      <button onClick={() => setNav("top")}>🏠</button>
+
+      {nav === "top" ? (
+        <>
+          <DropDown tag={tag} setTag={setTag} />
+          <PostList />
+        </>
+      ) : nav === "post" ? (
+        <PostPage />
+      ) : (
+        <></>
+      )}
     </>
   );
 }
