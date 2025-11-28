@@ -72,6 +72,15 @@ app.post("/api/tags", async (req, res) => {
   }
 });
 
+app.get("/api/users/:email", async (req, res) => {
+  const email = req.params.email;
+  const userData = await knex
+    .where("users.email", email)
+    .select()
+    .from("users");
+  res.status(200).json(userData);
+});
+
 app.listen(PORT, () => {
   console.log("Server started on port:" + PORT);
 });
