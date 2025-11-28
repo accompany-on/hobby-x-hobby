@@ -38,7 +38,9 @@ function PostPage({
   return (
     <>
       <h1>投稿画面</h1>
-
+      <button onClick={hundleAddTweet} className="PostButton">
+        投稿
+      </button>
       <div>
         <div className="postValue">
           タイトル :
