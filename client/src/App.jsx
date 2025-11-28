@@ -4,6 +4,8 @@ import PostList from './components/PostList';
 import PostPage from './components/PostPage';
 
 import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import SignUp from './components/Signup';
 
 function App() {
   const [tag, setTag] = useState('');
@@ -18,6 +20,11 @@ function App() {
 
   return (
     <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/signup" element={<SignUp />}></Route>
+        </Routes>
+      </BrowserRouter>
       <h1 className="title">HOBBY✖️HOBBY</h1>
       <button onClick={() => setNav('post')}>＋</button>
       <button onClick={() => setNav('top')}>🏠</button>
