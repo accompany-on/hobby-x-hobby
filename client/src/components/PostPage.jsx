@@ -3,6 +3,22 @@ import React, { useState } from "react";
 function PostPage() {
   const [postTag, setPostTag] = useState("");
 
+  // const hundleAddTweet = async () => {
+  //   await fetch("/api/tweets", {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //   },
+  //   body: JSON.stringify({
+  //     title,
+  //     comment,
+  //     user_id,
+  //     link,
+  //     tag_id
+
+  //   }),
+  // );
+  // };
+
   const tagList = [
     "PC界隈",
     "服界隈",
