@@ -19,7 +19,19 @@ function App() {
     fetch("/api/tweets")
       .then((data) => data.json())
       .then((data) => setPostList(data));
-  }, [postList]);
+  }, []);
+
+  useEffect(() => {
+    const tagUrl = `/api/tags/?tag=${tag}`;
+    fetch(tagUrl)
+      .then((data) => data.json())
+      .then((data) => {
+        const tagIdUrl = `/api/tweets/?tagId=${data.id}`;
+        fetch(tagIdUrl)
+          .then((data) => data.json())
+          .then((data) => setPostList(data));
+      });
+  }, [tag]);
 
   return (
     <>
