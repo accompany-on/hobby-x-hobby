@@ -1,11 +1,14 @@
 const express = require("express");
 const knex = require("./knex");
+const path = require("path");
 
 const app = express();
 const PORT = 3000;
 
-app.use(express.static("./"));
-
+app.use(express.static(path.join(__dirname, "..", "public")));
+app.use((req, res, next) => {
+  res.sendFile(path.join(__dirname, "..", "public", "index.html"));
+});
 app.use(express.json());
 
 app.get("/api/tweets", async (req, res) => {
