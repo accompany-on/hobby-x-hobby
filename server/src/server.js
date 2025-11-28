@@ -8,19 +8,19 @@ app.use(express.static("./"));
 
 app.use(express.json());
 
-app.get("/api/posts", async (req, res) => {
+app.get("/api/tweets", async (req, res) => {
   try {
-    const respose = await knex.select().from("posts");
+    const respose = await knex.select().from("tweets");
     res.status(200).json(respose);
   } catch (error) {
     console.error(error);
   }
 });
 
-app.post("/api/posts", async (req, res) => {
+app.post("/api/tweets", async (req, res) => {
   try {
     const reqBody = req.body;
-    const postData = await knex("posts").insert({
+    const postData = await knex("tweets").insert({
       title: reqBody.title,
       comment: reqBody.comment,
       user_id: reqBody.user_id,
