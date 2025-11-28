@@ -25,7 +25,7 @@ app.post("/api/posts", async (req, res) => {
       comment: reqBody.comment,
       user_id: reqBody.user_id,
       link: reqBody.link,
-      // tag_id: reqBody.tag_id,
+      tag_id: reqBody.tag_id,
     });
     res.status(201).end();
   } catch (error) {
@@ -38,7 +38,7 @@ app.get("/api/tags", async (req, res) => {
     const tag = await knex.select().from("tags");
     res.status(200).json(tag);
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 });
 
@@ -50,7 +50,7 @@ app.post("/api/tags", async (req, res) => {
     });
     res.status(200).end();
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 });
 
