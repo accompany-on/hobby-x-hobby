@@ -12,6 +12,12 @@ function PostPage({
 }) {
   const [postTag, setPostTag] = useState("");
 
+  function resetForm() {
+    setTitle("");
+    setComment("");
+    setLink("");
+  }
+
   const hundleAddTweet = async () => {
     await fetch("/api/tweets", {
       method: "POST",
@@ -25,6 +31,7 @@ function PostPage({
         tag_id: 1,
       }),
     });
+    resetForm();
   };
 
   const tagList = [
