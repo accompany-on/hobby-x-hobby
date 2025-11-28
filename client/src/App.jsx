@@ -56,6 +56,7 @@ function App() {
           setTag_id={setTag_id}
           link={link}
           setLink={setLink}
+          setPostList={setPostList}
         />
       ) : (
         <></>

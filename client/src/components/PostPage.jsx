@@ -9,6 +9,7 @@ function PostPage({
   link,
   setLink,
   // tag_id,
+  setPostList,
 }) {
   const [postTag, setPostTag] = useState("");
 
@@ -31,6 +32,9 @@ function PostPage({
         tag_id: 1,
       }),
     });
+    fetch("/api/tweets")
+      .then((data) => data.json())
+      .then((data) => setPostList(data));
     resetForm();
   };
 
