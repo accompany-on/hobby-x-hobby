@@ -21,9 +21,7 @@ function App() {
     fetch(tagUrl)
       .then((data) => data.json())
       .then((data) => {
-        console.log(data);
         const tagIdUrl = `/api/tweets/?tagId=${data.id}`;
-        console.log(tagIdUrl);
         fetch(tagIdUrl)
           .then((data) => data.json())
           .then((data) => setPostList(data));
