@@ -75,7 +75,7 @@ app.post("/api/tags", async (req, res) => {
 app.get("/api/users/:email", async (req, res) => {
   const email = req.params.email;
   const userData = await knex
-    .where("users.email", email)
+    .where("users.email", String(email))
     .select()
     .from("users");
   res.status(200).json(userData);
