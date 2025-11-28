@@ -1,23 +1,35 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useAuthContext } from '../context/AuthContext';
 import auth from '../firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { Link } from 'react-router-dom';
-// import { createUser } from '../api/user';
-// import { initUserItems } from '../api/userItem';
+import { Link, useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setUserName] = useState('');
   const [error, setError] = useState('');
+  const { authUser } = useAuthContext();
+  const navigation = useNavigate();
+
+  useEffect(() => {
+    if (authUser) {
+      return navigation('/');
+    }
+  }, [authUser, navigation]);
 
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
       await createUserWithEmailAndPassword(auth, email, password);
-      // const newUser = await createUser(name, email);
-      // const initItems = await initUserItems(newUser.id);
-      // console.log('init', initItems);
+      await fetch('/api/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name,
+          email: email,
+        }),
+      });
     } catch (error) {
       console.log(error);
       setError(error.message);
