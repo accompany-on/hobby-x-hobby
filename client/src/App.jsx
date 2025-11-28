@@ -37,7 +37,7 @@ function App() {
           title={title}
           setTitle={setTitle}
           comment={comment}
-          setCommnet={setComment}
+          setComment={setComment}
           user_id={user_id}
           setUser_id={setUser_id}
           tag_id={tag_id}
