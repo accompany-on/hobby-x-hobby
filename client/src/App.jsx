@@ -10,10 +10,10 @@ function App() {
   const [nav, setNav] = useState("top");
   const [postList, setPostList] = useState([]);
   const [title, setTitle] = useState("");
-  const [comment, setComment] = setState("");
-  const [user_id, setUser_id] = setState("");
-  const [link, setLink] = setState("");
-  const [tag_id, setTag_id] = setState("");
+  const [comment, setComment] = useState("");
+  const [user_id, setUser_id] = useState("");
+  const [link, setLink] = useState("");
+  const [tag_id, setTag_id] = useState("");
 
   useEffect(() => {
     fetch("/api/tweets")
@@ -33,7 +33,18 @@ function App() {
           <PostList postList={postList} />
         </>
       ) : nav === "post" ? (
-        <PostPage title={title} setTitle={setTitle} />
+        <PostPage
+          title={title}
+          setTitle={setTitle}
+          comment={comment}
+          setCommnet={setComment}
+          user_id={user_id}
+          setUser_id={setUser_id}
+          tag_id={tag_id}
+          setTag_id={setTag_id}
+          link={link}
+          setLink={setLink}
+        />
       ) : (
         <></>
       )}

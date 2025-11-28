@@ -1,23 +1,31 @@
 import React, { useState } from "react";
 
-function PostPage() {
+function PostPage({
+  title,
+  setTitle,
+  comment,
+  setComment,
+  // user_id,
+  link,
+  setLink,
+  // tag_id,
+}) {
   const [postTag, setPostTag] = useState("");
 
-  // const hundleAddTweet = async () => {
-  //   await fetch("/api/tweets", {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //   },
-  //   body: JSON.stringify({
-  //     title,
-  //     comment,
-  //     user_id,
-  //     link,
-  //     tag_id
+  const hundleAddTweet = async () => {
+    await fetch("/api/tweets", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
 
-  //   }),
-  // );
-  // };
+      body: JSON.stringify({
+        title: title,
+        comment: comment,
+        user_id: 1,
+        link: link,
+        tag_id: 1,
+      }),
+    });
+  };
 
   const tagList = [
     "PC界隈",
@@ -30,15 +38,19 @@ function PostPage() {
   return (
     <>
       <h1>投稿画面</h1>
+
       <div>
         <div className="postValue">
           タイトル :
-          <input />
+          <input value={title} onChange={(e) => setTitle(e.target.value)} />
         </div>
 
         <div className="postValueText">
           <label>コメント : </label>
-          <textarea />
+          <textarea
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          />
         </div>
         {/* <div className="postValue">
           image :
@@ -46,7 +58,7 @@ function PostPage() {
         </div> */}
         <div className="postValue">
           URL :
-          <input />
+          <input value={link} onChange={(e) => setLink(e.target.value)} />
         </div>
         <div className="postValue">
           タグ :
