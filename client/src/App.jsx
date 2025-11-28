@@ -1,17 +1,17 @@
-import { useEffect, useState } from 'react';
-import DropDown from './components/DropDown';
-import PostList from './components/PostList';
-import PostPage from './components/PostPage';
+import { useEffect, useState } from "react";
+import DropDown from "./components/DropDown";
+import PostList from "./components/PostList";
+import PostPage from "./components/PostPage";
 
-import './App.css';
+import "./App.css";
 
 function App() {
-  const [tag, setTag] = useState('');
-  const [nav, setNav] = useState('top');
+  const [tag, setTag] = useState("");
+  const [nav, setNav] = useState("top");
   const [postList, setPostList] = useState([]);
 
   useEffect(() => {
-    fetch('/api/posts')
+    fetch("/api/tweets")
       .then((data) => data.json())
       .then((data) => setPostList(data));
   }, [postList]);
@@ -19,15 +19,15 @@ function App() {
   return (
     <>
       <h1 className="title">HOBBY✖️HOBBY</h1>
-      <button onClick={() => setNav('post')}>＋</button>
-      <button onClick={() => setNav('top')}>🏠</button>
+      <button onClick={() => setNav("post")}>＋</button>
+      <button onClick={() => setNav("top")}>🏠</button>
 
-      {nav === 'top' ? (
+      {nav === "top" ? (
         <>
           <DropDown tag={tag} setTag={setTag} />
           <PostList postList={postList} />
         </>
-      ) : nav === 'post' ? (
+      ) : nav === "post" ? (
         <PostPage />
       ) : (
         <></>
