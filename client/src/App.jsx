@@ -6,6 +6,7 @@ import PostPage from './components/PostPage';
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import SignUp from './components/Signup';
+import Login from './components/Login';
 
 function App() {
   const [tag, setTag] = useState('');
@@ -23,6 +24,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/signup" element={<SignUp />}></Route>
+          <Route path="/login" element={<Login />}></Route>
         </Routes>
       </BrowserRouter>
       <h1 className="title">HOBBY✖️HOBBY</h1>
