@@ -38,7 +38,7 @@ function App() {
   
       <Routes>
         <Route path="/" element={<Index />}>
-          <Route path='/' element={<NavBar />} />
+          <Route index element={<NavBar />} />
         </Route>
       </Routes>
   );
