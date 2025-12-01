@@ -6,9 +6,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.static(path.join(__dirname, "..", "public")));
-app.use((req, res, next) => {
-  res.sendFile(path.join(__dirname, "..", "public", "index.html"));
-});
+
 app.use(express.json());
 
 app.get("/api/tweets", async (req, res) => {
@@ -84,6 +82,10 @@ app.get("/api/users/:email", async (req, res) => {
     .select()
     .from("users");
   res.status(200).json(userData);
+});
+
+app.use((req, res, next) => {
+  res.sendFile(path.join(__dirname, "..", "public", "index.html"));
 });
 
 app.listen(PORT, () => {
