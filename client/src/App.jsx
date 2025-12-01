@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import DropDown from "./components/DropDown";
 import PostList from "./components/PostList";
 import PostPage from "./components/PostPage";
-import "./App.css";
 
 function App() {
   const [tag, setTag] = useState("");
