@@ -9,15 +9,31 @@ function App() {
   return (
     <>
       <h1 className="title">HOBBY✖️HOBBY</h1>
-      <AuthProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/signup" element={<SignUp />}></Route>
-            <Route path="/login" element={<Login />}></Route>
-            <Route path="/" element={<Top />}></Route>
-          </Routes>
-        </BrowserRouter>
-      </AuthProvider>
+      <button onClick={() => setNav("post")}>＋</button>
+      <button onClick={() => setNav("top")}>🏠</button>
+
+      {nav === "top" ? (
+        <>
+          <DropDown tag={tag} setTag={setTag} />
+          <PostList postList={postList} />
+        </>
+      ) : nav === "post" ? (
+        <PostPage
+          title={title}
+          setTitle={setTitle}
+          comment={comment}
+          setComment={setComment}
+          user_id={user_id}
+          setUser_id={setUser_id}
+          tag_id={tag_id}
+          setTag_id={setTag_id}
+          link={link}
+          setLink={setLink}
+          setPostList={setPostList}
+        />
+      ) : (
+        <></>
+      )}
     </>
   );
 }

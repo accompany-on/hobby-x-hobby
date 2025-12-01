@@ -48,10 +48,12 @@ app.get('/api/tags', async (req, res) => {
       const respose = await knex
         .where('tags.name', queryTag)
         .select()
-        .from('tags');
+        .from("tags");
+      console.log(respose);
       res.status(200).json(respose[0]);
     } else {
-      const tag = await knex.select().from('tags');
+      const tag = await knex.select().from("tags");
+      console.log(tag);
       res.status(200).json(tag);
     }
   } catch (error) {
