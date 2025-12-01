@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
-import DropDown from './components/DropDown';
-import PostList from './components/PostList';
-import PostPage from './components/PostPage';
+import {
+  Route,
+  Routes
+} from 'react-router-dom';
 import NavBar from './components/utils/NavBar';
+import Index from './components/Index';
 
 function App() {
   const [tag, setTag] = useState('');
@@ -33,37 +35,12 @@ function App() {
   }, [tag]);
 
   return (
-    <>
-      <NavBar />
-      <h1 className="title">HOBBY✖️HOBBY</h1>
-      <button onClick={() => setNav('post')}>＋</button>
-      <button onClick={() => setNav('top')}>🏠</button>
-
-      {nav === 'top' ? (
-        <>
-          <DropDown tag={tag} setTag={setTag} />
-          <PostList postList={postList} />
-        </>
-      ) : nav === 'post' ? (
-        <>
-          <PostPage
-            title={title}
-            setTitle={setTitle}
-            comment={comment}
-            setComment={setComment}
-            user_id={user_id}
-            setUser_id={setUser_id}
-            tag_id={tag_id}
-            setTag_id={setTag_id}
-            link={link}
-            setLink={setLink}
-            setPostList={setPostList}
-          />
-        </>
-      ) : (
-        <></>
-      )}
-    </>
+  
+      <Routes>
+        <Route path="/" element={<Index />}>
+          <Route path='/' element={<NavBar />} />
+        </Route>
+      </Routes>
   );
 }
 
