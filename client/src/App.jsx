@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 import NavBar from './components/utils/NavBar';
 import Index from './components/Index';
+import Login from './components/Login';
 
 function App() {
   const [tag, setTag] = useState('');
@@ -40,6 +41,7 @@ function App() {
         <Route path="/" element={<Index />}>
           <Route index element={<NavBar />} />
         </Route>
+        <Route path="/login" element={<Login />}/>
       </Routes>
   );
 }
