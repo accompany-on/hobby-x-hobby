@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-
+import { useEffect } from "react";
+import { useState } from "react";
 function PostPage({
   title,
   setTitle,
@@ -8,15 +8,17 @@ function PostPage({
   // user_id,
   link,
   setLink,
-  // tag_id,
+  tag_id,
+  setTag_id,
   setPostList,
 }) {
-  const [postTag, setPostTag] = useState("");
+  const [tagList, setTagList] = useState([]);
 
   function resetForm() {
     setTitle("");
     setComment("");
     setLink("");
+    setTag_id("");
   }
 
   const hundleAddTweet = async () => {
@@ -29,22 +31,22 @@ function PostPage({
         comment: comment,
         user_id: 1,
         link: link,
-        tag_id: 1,
+        tag_id: tag_id,
       }),
     });
+
     fetch("/api/tweets")
       .then((data) => data.json())
       .then((data) => setPostList(data));
     resetForm();
   };
 
-  const tagList = [
-    "PC界隈",
-    "服界隈",
-    "釣り界隈",
-    "キャンプ界隈",
-    "筋トレ界隈",
-  ];
+  useEffect(() => {
+    fetch("/api/tags")
+      .then((data) => data.json())
+      .then((data) => setTagList(data));
+  }, []);
+  //ここではもともと[tag_list]があったが、無限ループになるため、変更
 
   return (
     <>
@@ -76,15 +78,15 @@ function PostPage({
         <div className="postValue">
           タグ :
           <select
-            value={postTag}
+            value={tag_id}
             onChange={(e) => {
-              setPostTag(e.target.value);
+              setTag_id(Number(e.target.value));
             }}
             id="pet-select"
           >
-            {tagList.map((item, i) => (
-              <option value={item} key={i}>
-                {item}
+            {tagList.map((item) => (
+              <option value={item.id} key={item.id}>
+                {item.name}
               </option>
             ))}
           </select>
