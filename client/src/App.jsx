@@ -21,6 +21,7 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (tag === "") return;
     const tagUrl = `/api/tags/?tag=${tag}`;
     fetch(tagUrl)
       .then((data) => data.json())
