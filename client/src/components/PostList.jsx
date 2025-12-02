@@ -14,6 +14,7 @@ function PostList({ postList }) {
         <ImageListItem key="Subheader" cols={3}></ImageListItem>
         {postList.map((item) => (
           <ImageListItem key={item.id}>
+            <div>{item.tag_name}</div>
             <img
               srcSet={`${item.image}?w=248&fit=crop&auto=format&dpr=2 2x`}
               src={`${item.imgage}?w=248&fit=crop&auto=format`}
@@ -29,7 +30,7 @@ function PostList({ postList }) {
                   sx={{ color: "rgba(255, 255, 255, 0.54)" }}
                   aria-label={`info about ${item.comment}`}
                 >
-                  <img src={item.user_icon} />
+                  <img src={item.user_icon} style={{ height: 50 }} />
                 </IconButton>
               }
             />
