@@ -18,7 +18,7 @@ export default function Index() {
           <Outlet />
           <Box sx={{height:'40px'}}/>
           <DropDown />
-          <ImageList sx={{ width: '100%' }}>
+          <ImageList sx={{ width: '100%' }} cols={3}>
             <ImageListItem key="Subheader" cols={3}></ImageListItem>
             {itemData.map((item) => (
               <ImageListItem key={item.img}>
