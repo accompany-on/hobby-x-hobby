@@ -3,15 +3,14 @@
  * @returns { Promise<void> }
  */
 exports.up = function (knex) {
-  return knex.schema.createTable('tweets', (table) => {
-    table.increments('id').primary();
-    table.integer('user_id').notNullable();
-    table.foreign('user_id').references('users.id');
-    table.string('title').notNullable();
-    table.string('comment');
-    table.integer('tag_id');
-    table.string('link');
-    table.timestamps(true, true);
+  return knex.schema.createTable("tweets", (table) => {
+    table.increments("id").primary();
+    table.integer("user_id").notNullable();
+    table.foreign("user_id").references("users.id");
+    table.string("comment");
+    table.string("image");
+    table.integer("tag_id");
+    table.timestamps("created_at");
   });
 };
 
@@ -20,5 +19,5 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return knex.schema.dropTableIfExists('tweets');
+  return knex.schema.dropTableIfExists("tweets");
 };

@@ -1,29 +1,28 @@
-import { useEffect, useState } from 'react';
-import {
-  Route,
-  Routes
-} from 'react-router-dom';
-import NavBar from './components/utils/NavBar';
-import Index from './components/Index';
-import Login from './components/Login';
+import { useEffect, useState } from "react";
+import { Route, Routes } from "react-router-dom";
+import NavBar from "./components/utils/NavBar";
+import Index from "./components/Index";
+import Login from "./components/Login";
+import PostList from "./components/PostList";
 
 function App() {
-  const [tag, setTag] = useState('');
-  const [nav, setNav] = useState('top');
+  const [tag, setTag] = useState("");
+  const [nav, setNav] = useState("top");
   const [postList, setPostList] = useState([]);
-  const [title, setTitle] = useState('');
-  const [comment, setComment] = useState('');
-  const [user_id, setUser_id] = useState('');
-  const [link, setLink] = useState('');
-  const [tag_id, setTag_id] = useState('');
+  const [title, setTitle] = useState("");
+  const [comment, setComment] = useState("");
+  const [user_id, setUser_id] = useState("");
+  const [link, setLink] = useState("");
+  const [tag_id, setTag_id] = useState("");
 
   useEffect(() => {
-    fetch('/api/tweets')
+    fetch("/api/tweets")
       .then((data) => data.json())
       .then((data) => setPostList(data));
   }, []);
 
   useEffect(() => {
+    if (tag === "") return;
     const tagUrl = `/api/tags/?tag=${tag}`;
     fetch(tagUrl)
       .then((data) => data.json())
@@ -36,13 +35,12 @@ function App() {
   }, [tag]);
 
   return (
-  
-      <Routes>
-        <Route path="/" element={<Index />}>
-          <Route index element={<NavBar />} />
-        </Route>
-        <Route path="/login" element={<Login />}/>
-      </Routes>
+    <Routes>
+      <Route path="/" element={<Index />}>
+        <Route path="/" element={<PostList postList={postList} />} />
+      </Route>
+      <Route path="/login" element={<Login />} />
+    </Routes>
   );
 }
 
