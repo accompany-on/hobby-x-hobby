@@ -4,9 +4,20 @@ import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import "./PostList.css";
+import Chip from "@mui/material/Chip";
+import { AppContext } from "../App";
+import { useContext } from "react";
 
 function PostList({ postList }) {
   dayjs.extend(relativeTime);
+
+  const { setTag_id } = useContext(AppContext);
+
+  const handleClick = (id) => {
+    setTag_id(id);
+    return;
+  };
 
   return (
     <>
@@ -14,7 +25,19 @@ function PostList({ postList }) {
         <ImageListItem key="Subheader" cols={3}></ImageListItem>
         {postList.map((item) => (
           <ImageListItem key={item.id}>
-            <div>{item.tag_name}</div>
+            <div>
+              {item.tag_names.map((tag_name, index) => {
+                return (
+                  <Chip
+                    label={tag_name.name}
+                    variant="outlined"
+                    onClick={() => handleClick(tag_name.id)}
+                    key={index}
+                    id={`postTag${tag_name.id}`}
+                  />
+                );
+              })}
+            </div>
             <img
               srcSet={`${item.image}?w=248&fit=crop&auto=format&dpr=2 2x`}
               src={`${item.imgage}?w=248&fit=crop&auto=format`}
