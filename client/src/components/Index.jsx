@@ -6,38 +6,45 @@ import IconButton from '@mui/material/IconButton';
 import InfoIcon from '@mui/icons-material/Info';
 import { Outlet } from 'react-router-dom';
 import DropDown from './utils/DropDown';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Toolbar from '@mui/material/Toolbar';
 
 export default function Index() {
   return (
     <>
-      <Outlet />
-      <DropDown/>
-      <ImageList sx={{ width: '100%', height: 'auto' }}>
-        <ImageListItem key="Subheader" cols={3}>
-        </ImageListItem>
-        {itemData.map((item) => (
-          <ImageListItem key={item.img}>
-            <img
-              srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-              src={`${item.img}?w=248&fit=crop&auto=format`}
-              alt={item.title}
-              loading="lazy"
-            />
-            <ImageListItemBar
-              title={item.title}
-              subtitle={item.author}
-              actionIcon={
-                <IconButton
-                  sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                  aria-label={`info about ${item.title}`}
-                >
-                  <InfoIcon />
-                </IconButton>
-              }
-            />
-          </ImageListItem>
-        ))}
-      </ImageList>
+      <Box sx={{ width: '100%'}}>
+        <Stack spacing={1}>
+          <Outlet />
+          <Box sx={{height:'40px'}}/>
+          <DropDown />
+          <ImageList sx={{ width: '100%' }}>
+            <ImageListItem key="Subheader" cols={3}></ImageListItem>
+            {itemData.map((item) => (
+              <ImageListItem key={item.img}>
+                <img
+                  srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                  src={`${item.img}?w=248&fit=crop&auto=format`}
+                  alt={item.title}
+                  loading="lazy"
+                />
+                <ImageListItemBar
+                  title={item.title}
+                  subtitle={item.author}
+                  actionIcon={
+                    <IconButton
+                      sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+                      aria-label={`info about ${item.title}`}
+                    >
+                      <InfoIcon />
+                    </IconButton>
+                  }
+                />
+              </ImageListItem>
+            ))}
+          </ImageList>
+        </Stack>
+      </Box>
     </>
   );
 }
