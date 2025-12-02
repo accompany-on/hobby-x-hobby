@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import NavBar from "./components/utils/NavBar";
 import Index from "./components/Index";
 import Login from "./components/Login";
 import PostList from "./components/PostList";
+
+export const AppContext = createContext();
 
 function App() {
   const [tag, setTag] = useState("");
@@ -22,25 +24,24 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (tag === "") return;
-    const tagUrl = `/api/tags/?tag=${tag}`;
-    fetch(tagUrl)
+    if (tag_id === "") return;
+    const tagIdUrl = `/api/tweets?tagId=${tag_id}`;
+    fetch(tagIdUrl)
       .then((data) => data.json())
-      .then((data) => {
-        const tagIdUrl = `/api/tweets/?tagId=${data.id}`;
-        fetch(tagIdUrl)
-          .then((data) => data.json())
-          .then((data) => setPostList(data));
-      });
-  }, [tag]);
+      .then((data) => setPostList(data));
+  }, [tag_id]);
+
+  const value = { tag_id, setTag_id };
 
   return (
-    <Routes>
-      <Route path="/" element={<Index />}>
-        <Route path="/" element={<PostList postList={postList} />} />
-      </Route>
-      <Route path="/login" element={<Login />} />
-    </Routes>
+    <AppContext.Provider value={value}>
+      <Routes>
+        <Route path="/" element={<Index />}>
+          <Route path="/" element={<PostList postList={postList} />} />
+        </Route>
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </AppContext.Provider>
   );
 }
 
