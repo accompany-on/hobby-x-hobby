@@ -22,9 +22,8 @@ export default function UploadButton() {
       variant="contained"
       tabIndex={-1}
       startIcon={<CloudUploadIcon />}
-      sx={{m:3, bgcolor:'#1bb9e0ff'}}
     >
-      Upload images
+      Upload files
       <VisuallyHiddenInput
         type="file"
         onChange={(event) => console.log(event.target.files)}

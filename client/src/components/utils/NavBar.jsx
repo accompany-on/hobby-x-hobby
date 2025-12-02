@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import UploadButton from './UploadButton';
+import UploadModal from '../Upload/Modal';
 
 const pages = ['Home', 'Sample', 'Login'];
 const settings = ['Profile', 'Logout'];
@@ -121,7 +121,7 @@ function NavBar() {
               </Button>
             ))}
           </Box>
-            <UploadButton/>
+            <UploadModal/>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
