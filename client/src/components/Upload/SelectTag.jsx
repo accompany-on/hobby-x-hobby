@@ -1,27 +1,29 @@
-import * as React from "react";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import { AppContext } from "../../App";
-import { useContext } from "react";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import { AppContext } from '../../App';
 
-export default function DropDown() {
-  const { setTag_id } = useContext(AppContext);
-  const handleChange = (e) => {
-    setTag_id(e.target.value);
+export default function SelectTag({ tag, setTag }) {
+
+
+
+  const handleChange = (event) => {
+    setTag(event.target.value);
   };
 
   return (
-    <div>
-      <FormControl sx={{ minWidth: 80, mt: 3 }}>
-        <InputLabel id="demo-simple-select-autowidth-label">Tag</InputLabel>
+    <Box sx={{ minWidth: 120, m: 3 }}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Tag</InputLabel>
         <Select
-          labelId="demo-simple-select-autowidth-label"
-          id="demo-simple-select-autowidth"
-          onChange={handleChange}
-          autoWidth
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={tag}
           label="Tag"
+          onChange={handleChange}
         >
           <MenuItem value={1}>PC界隈</MenuItem>
           <MenuItem value={2}>服界隈</MenuItem>
@@ -37,6 +39,6 @@ export default function DropDown() {
           <MenuItem value={12}>スポーツ界隈</MenuItem>
         </Select>
       </FormControl>
-    </div>
+    </Box>
   );
 }

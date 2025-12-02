@@ -8,14 +8,15 @@ import PostList from "./components/PostList";
 export const AppContext = createContext();
 
 function App() {
-  const [tag, setTag] = useState("");
+  
   const [nav, setNav] = useState("top");
   const [postList, setPostList] = useState([]);
   const [title, setTitle] = useState("");
-  const [comment, setComment] = useState("");
+
   const [user_id, setUser_id] = useState("");
   const [link, setLink] = useState("");
   const [tag_id, setTag_id] = useState("");
+  const [uploadImage, setUploadImage] = useState("");
 
   useEffect(() => {
     fetch("/api/tweets")
@@ -31,7 +32,7 @@ function App() {
       .then((data) => setPostList(data));
   }, [tag_id]);
 
-  const value = { tag_id, setTag_id };
+  const value = { tag_id, setTag_id, uploadImage, setUploadImage,setPostList  };
 
   return (
     <AppContext.Provider value={value}>
