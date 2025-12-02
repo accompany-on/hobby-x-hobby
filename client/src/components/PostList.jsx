@@ -1,18 +1,42 @@
+import ImageList from "@mui/material/ImageList";
+import ImageListItem from "@mui/material/ImageListItem";
+import ImageListItemBar from "@mui/material/ImageListItemBar";
+import IconButton from "@mui/material/IconButton";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
 function PostList({ postList }) {
+  dayjs.extend(relativeTime);
+
   return (
     <>
-      <div className="postList">
-        {postList.map((post, index) => (
-          <div className="post" key={index}>
-            <img src={post.user_icon}></img>
-            <p>{post.user_name}</p>
-            <p>{post.comment}</p>
-            <p>{post.tag_name}</p>
-            <img id="postImage" src={post.image}></img>
-            <p>{new Date(post.created_at).toUTCString()}</p>
-          </div>
+      <ImageList sx={{ width: "100%" }} cols={3}>
+        <ImageListItem key="Subheader" cols={3}></ImageListItem>
+        {postList.map((item) => (
+          <ImageListItem key={item.id}>
+            <div>{item.tag_name}</div>
+            <img
+              srcSet={`${item.image}?w=248&fit=crop&auto=format&dpr=2 2x`}
+              src={`${item.imgage}?w=248&fit=crop&auto=format`}
+              alt={item.comment}
+              loading="lazy"
+              key={item.id}
+            />
+            <ImageListItemBar
+              title={item.comment}
+              subtitle={`@${item.user_name}  #${dayjs(new Date(item.created_at).toUTCString()).fromNow()}`}
+              actionIcon={
+                <IconButton
+                  sx={{ color: "rgba(255, 255, 255, 0.54)" }}
+                  aria-label={`info about ${item.comment}`}
+                >
+                  <img src={item.user_icon} style={{ height: 50 }} />
+                </IconButton>
+              }
+            />
+          </ImageListItem>
         ))}
-      </div>
+      </ImageList>
     </>
   );
 }
