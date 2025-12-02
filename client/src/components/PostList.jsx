@@ -4,7 +4,6 @@ import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import "./PostList.css";
 import Chip from "@mui/material/Chip";
 import { AppContext } from "../App";
 import { useContext } from "react";
@@ -34,6 +33,7 @@ function PostList({ postList }) {
                     onClick={() => handleClick(tag_name.id)}
                     key={index}
                     id={`postTag${tag_name.id}`}
+                    color="primary"
                   />
                 );
               })}
