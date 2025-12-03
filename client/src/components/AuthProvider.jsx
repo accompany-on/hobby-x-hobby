@@ -10,6 +10,7 @@ export function AuthProvider({ children }) {
   const value = {
     authUser,
     loading,
+    setAuthUser,
   };
 
   useEffect(() => {

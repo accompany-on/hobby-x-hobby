@@ -17,18 +17,45 @@ import auth from "../../firebase";
 import { useNavigate } from "react-router-dom";
 import UploadModal from "../Upload/Modal";
 import { AppContext } from "../../App";
-import { useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import Modal from "@mui/material/Modal";
+import SetUserName from "../SetUserName";
 
 const pages = ["Home"];
-const settings = ["Logout"];
+const settings = ["User Name", "Logout"];
 
 function NavBar() {
   const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const { setTag_id } = useContext(AppContext);
-  const { authUser } = useContext(AuthContext);
+  const { authUser, loading } = useContext(AuthContext);
+  const [user_name, setUser_name] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      if (loading || authUser === null) {
+        setUser_name("");
+        return;
+      }
+      const idToken = await authUser.getIdToken();
+      fetch("/api/users", {
+        headers: {
+          authorization: `Bearer ${idToken}`,
+        },
+      })
+        .then((data) => data.json())
+        .then((data) => {
+          setUser_name(data[0].name);
+        });
+    })(),
+      [loading];
+  });
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -47,11 +74,27 @@ function NavBar() {
 
   const handleLogout = async () => {
     try {
+      setUser_name("");
       await signOut(auth);
-      navigate("/");
     } catch (e) {
       console.error("ログアウト失敗: ", e);
     }
+  };
+
+  const handleUserName = async () => {
+    handleOpen();
+  };
+
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 800,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
   };
 
   return (
@@ -147,7 +190,7 @@ function NavBar() {
                     <Avatar
                       alt="Remy Sharp"
                       src="/static/images/avatar/2.jpg"
-                    />
+                    ></Avatar>
                   </IconButton>
                 </Tooltip>
               </>
@@ -184,6 +227,9 @@ function NavBar() {
                     if (setting === "Logout") {
                       handleLogout();
                     }
+                    if (setting === "User Name") {
+                      handleUserName();
+                    }
                   }}
                 >
                   <Typography sx={{ textAlign: "center" }}>
@@ -192,9 +238,20 @@ function NavBar() {
                 </MenuItem>
               ))}
             </Menu>
+            <span>{user_name}</span>
           </Box>
         </Toolbar>
       </Container>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <SetUserName handleClose={handleClose} />
+        </Box>
+      </Modal>
     </AppBar>
   );
 }
