@@ -9,7 +9,6 @@ exports.up = function (knex) {
     table.foreign('user_id').references('users.id');
     table.string('comment');
     table.string('image');
-    table.integer('tag_id');
     table.timestamps(true, true);
   });
 };
