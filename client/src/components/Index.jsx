@@ -17,7 +17,6 @@ export default function Index() {
       <NavBar />
       <Box sx={{ width: "100%" }}>
         <Stack spacing={1}>
-          <Box sx={{ height: "40px" }} />
           <DropDown />
           <Outlet />
         </Stack>
