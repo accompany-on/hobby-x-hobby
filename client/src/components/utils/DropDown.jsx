@@ -28,6 +28,14 @@ export default function DropDown() {
           <MenuItem value={3}>釣り界隈</MenuItem>
           <MenuItem value={4}>キャンプ界隈</MenuItem>
           <MenuItem value={5}>筋トレ界隈</MenuItem>
+          <MenuItem value={6}>風呂キャン界隈</MenuItem>
+          <MenuItem value={7}>旅行界隈</MenuItem>
+          <MenuItem value={8}>筋トレ界隈</MenuItem>
+          <MenuItem value={9}>運動好き界隈</MenuItem>
+          <MenuItem value={10}>アニヲタ界隈</MenuItem>
+          <MenuItem value={11}>酒界隈</MenuItem>
+          <MenuItem value={12}>車界隈</MenuItem>
+          <MenuItem value={13}>スポーツ界隈</MenuItem>
         </Select>
       </FormControl>
     </div>
