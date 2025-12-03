@@ -1,44 +1,82 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
+import { useTheme } from '@mui/material/styles';
+import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { AppContext } from '../../App';
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+const tags = [
+  { name: 'PC界隈', num: 1 },
+  { name: '服界隈', num: 2 },
+  { name: '釣り界隈', num: 3 },
+  { name: 'キャンプ界隈', num: 4 },
+  { name: '筋トレ界隈', num: 5 },
+  { name: '風呂キャン界隈', num: 6 },
+  { name: '旅行界隈', num: 7 },
+  { name: '運動好き界隈', num: 8 },
+  { name: 'アニヲタ界隈', num: 9 },
+  { name: '酒界隈', num: 10 },
+  { name: '車界隈', num: 11 },
+  { name: 'スポーツ界隈', num: 12 },
+];
+
+function getStyles(name, tag, theme) {
+  return {
+    fontWeight: tag.includes(name)
+      ? theme.typography.fontWeightMedium
+      : theme.typography.fontWeightRegular,
+  };
+}
 
 export default function SelectTag({ tag, setTag }) {
-
-
+  const theme = useTheme();
 
   const handleChange = (event) => {
-    setTag(event.target.value);
+    const {
+      target: { value },
+    } = event;
+    setTag(
+      // On autofill we get a stringified value.
+      typeof value === 'string' ? value.split(',') : value
+    );
   };
 
   return (
-    <Box sx={{ minWidth: 120, m: 3 }}>
-      <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Tag</InputLabel>
+    <div>
+      <FormControl sx={{ m: 1, width: 600 }}>
+        <InputLabel id="demo-multiple-name-label">Tag</InputLabel>
         <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
+          labelId="demo-multiple-name-label"
+          id="demo-multiple-name"
+          multiple
           value={tag}
-          label="Tag"
           onChange={handleChange}
+          input={<OutlinedInput label="Tag" />}
+          MenuProps={MenuProps}
         >
-          <MenuItem value={1}>PC界隈</MenuItem>
-          <MenuItem value={2}>服界隈</MenuItem>
-          <MenuItem value={3}>釣り界隈</MenuItem>
-          <MenuItem value={4}>キャンプ界隈</MenuItem>
-          <MenuItem value={5}>筋トレ界隈</MenuItem>
-          <MenuItem value={6}>風呂キャン界隈</MenuItem>
-          <MenuItem value={7}>旅行界隈</MenuItem>
-          <MenuItem value={8}>運動好き界隈</MenuItem>
-          <MenuItem value={9}>アニヲタ界隈</MenuItem>
-          <MenuItem value={10}>酒界隈</MenuItem>
-          <MenuItem value={11}>車界隈</MenuItem>
-          <MenuItem value={12}>スポーツ界隈</MenuItem>
+          {tags.map((p) => (
+            <MenuItem
+              key={p.name}
+              value={p.num}
+              style={getStyles(p.name, tag, theme)}
+            >
+              {p.name}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
-    </Box>
+    </div>
   );
 }
