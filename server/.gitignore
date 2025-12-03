@@ -178,3 +178,6 @@ dist
 
 .env.sample
 .env.local
+
+# firebase agmin key
+firebase-admin-key.json
