@@ -10,16 +10,19 @@ exports.seed = async function (knex) {
       name: "タケシ",
       email: "takeshi@example.com",
       icon: "https://cdn.pixabay.com/photo/2022/06/25/07/21/seagull-7282992_1280.png",
+      firebase_id: "pcqjVcbms2Xqke9w0qmEYvqsRXW2",
     },
     {
       name: "サトシ",
       email: "satoshi@example.com",
       icon: "https://cdn.pixabay.com/photo/2020/10/18/20/43/dinosaur-5666127_1280.png",
+      firebase_id: "pcqjVcbms2Xqke9w0qmEYvqsRXW3",
     },
     {
       name: "カスミ",
       email: "kasumi@example.com",
       icon: "https://cdn.pixabay.com/photo/2018/05/26/18/06/dog-3431913_1280.jpg",
+      firebase_id: "pcqjVcbms2Xqke9w0qmEYvqsRXW4",
     },
   ]);
 };
