@@ -15,10 +15,13 @@ app.get('/api/tweets', async (req, res) => {
     const queryTagId = req.query.tagId;
     let tweets;
     if (queryTagId) {
-      tweets = await knex
-        .where('tweets.tag_id', Number(queryTagId))
-        .select()
-        .from('tweets');
+      posts = await knex
+        .where("post_to_tags.tag_id", Number(queryTagId))
+        .select("post_id")
+        .from("post_to_tags");
+
+      const postIds = posts.map((post) => post.post_id);
+      tweets = await knex.whereIn("tweets.id", postIds).select().from("tweets");
     } else {
       tweets = await knex.select().from('tweets');
     }
@@ -30,17 +33,22 @@ app.get('/api/tweets', async (req, res) => {
           .first()
           .from('users');
         const tagInfo = await knex
-          .where('id', tweet.tag_id)
-          .first()
-          .from('tags');
+          .table("post_to_tags")
+          .innerJoin("tags", function () {
+            this.on("tags.id", "=", "post_to_tags.tag_id");
+          })
+          .where("post_to_tags.post_id", tweet.id);
 
+        const tags = tagInfo.map((data) => {
+          return { id: data.tag_id, name: data.name };
+        });
         const data = {
           id: tweet.id,
           user_name: userInfo.name,
           user_icon: userInfo.icon,
           comment: tweet.comment,
           image: tweet.image,
-          tag_name: tagInfo.name,
+          tag_names: tags,
           created_at: tweet.created_at,
         };
         return data;
