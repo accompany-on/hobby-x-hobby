@@ -15,14 +15,20 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { signOut } from "firebase/auth";
 import auth from "../../firebase";
 import { useNavigate } from "react-router-dom";
+import UploadModal from "../Upload/Modal";
+import { AppContext } from "../../App";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
-const pages = ["Home", "Sample", "Login"];
-const settings = ["Profile", "Logout"];
+const pages = ["Home"];
+const settings = ["Logout"];
 
 function NavBar() {
+  const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const navigate = useNavigate();
+  const { setTag_id } = useContext(AppContext);
+  const { authUser } = useContext(AuthContext);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -32,7 +38,7 @@ function NavBar() {
   };
 
   const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
+    setTag_id("");
   };
 
   const handleCloseUserMenu = () => {
@@ -42,7 +48,7 @@ function NavBar() {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      navigate("/login");
+      navigate("/");
     } catch (e) {
       console.error("ログアウト失敗: ", e);
     }
@@ -132,12 +138,27 @@ function NavBar() {
               </Button>
             ))}
           </Box>
+          {authUser ? <UploadModal /> : <></>}
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
+            {authUser ? (
+              <>
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar
+                      alt="Remy Sharp"
+                      src="/static/images/avatar/2.jpg"
+                    />
+                  </IconButton>
+                </Tooltip>
+              </>
+            ) : (
+              <Button
+                sx={{ bgcolor: "#1bb9e0ff", m: 3, color: "#c9dce0ff" }}
+                onClick={() => navigate("/login")}
+              >
+                Login
+              </Button>
+            )}
             <Menu
               sx={{ mt: "45px" }}
               id="menu-appbar"
