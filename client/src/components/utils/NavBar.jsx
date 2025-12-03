@@ -15,6 +15,7 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { signOut } from "firebase/auth";
 import auth from "../../firebase";
 import { useNavigate } from "react-router-dom";
+import UploadModal from "../Upload/Modal";
 
 const pages = ["Home", "Sample", "Login"];
 const settings = ["Profile", "Logout"];
@@ -132,6 +133,7 @@ function NavBar() {
               </Button>
             ))}
           </Box>
+          <UploadModal/>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
