@@ -77,7 +77,7 @@ app.post('/api/tweets', async (req, res) => {
       })
     );
 
-    res.status(201).end();
+    res.status(201).json({ message: 'Success!!' });
   } catch (error) {
     console.error('POST /api/tweets error:', error);
     res.status(500).json({ error: 'failed to insert tweet' });
