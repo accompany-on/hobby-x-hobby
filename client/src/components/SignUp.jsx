@@ -17,8 +17,47 @@ import { useTheme } from "@mui/material/styles";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import auth from "../firebase";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const providers = [{ id: "credentials", name: "Email and Password" }];
+
+export default function SignUp() {
+  const theme = useTheme();
+  const navigate = useNavigate();
+  return (
+    <AppProvider theme={theme}>
+      <SignInPage
+        signIn={async (provider, formData) => {
+          await createUserWithEmailAndPassword(
+            auth,
+            formData.get("email"),
+            formData.get("password")
+          );
+          await fetch("/api/users", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              name: "ユーザー",
+              email: formData.get("email"),
+            }),
+          });
+          navigate("/", { replace: true });
+        }}
+        slots={{
+          title: Title,
+          emailField: CustomEmailField,
+          subtitle: SubTitle,
+          passwordField: CustomPasswordField,
+          form: CustomNameField,
+          submitButton: CustomButton,
+          signUpLink: SignUpLink,
+        }}
+        slotProps={{ form: CustomNameField }}
+        providers={providers}
+      />
+    </AppProvider>
+  );
+}
 
 function CustomEmailField() {
   return (
@@ -139,41 +178,5 @@ function CustomNameField() {
       }}
       variant="outlined"
     />
-  );
-}
-
-export default function SignUp() {
-  const theme = useTheme();
-  return (
-    <AppProvider theme={theme}>
-      <SignInPage
-        signIn={async (provider, formData) => {
-          await createUserWithEmailAndPassword(
-            auth,
-            formData.get("email"),
-            formData.get("password")
-          );
-          await fetch("/api/users", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              name: "ユーザー",
-              email: formData.get("email"),
-            }),
-          });
-        }}
-        slots={{
-          title: Title,
-          emailField: CustomEmailField,
-          subtitle: SubTitle,
-          passwordField: CustomPasswordField,
-          form: CustomNameField,
-          submitButton: CustomButton,
-          signUpLink: SignUpLink,
-        }}
-        slotProps={{ form: CustomNameField }}
-        providers={providers}
-      />
-    </AppProvider>
   );
 }
