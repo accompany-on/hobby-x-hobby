@@ -36,7 +36,7 @@ export default function Form({handleClose}) {
         user_id: 1,
         comment: comment,
         image: data.data.url,
-        tag_id: tag,
+        tags: tag,
       }),
     });
 

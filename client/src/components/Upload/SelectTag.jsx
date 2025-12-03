@@ -52,7 +52,6 @@ export default function SelectTag({ tag, setTag }) {
       typeof value === 'string' ? value.split(',') : value
     );
   };
-console.log('****',tag)
 
   return (
     <div>

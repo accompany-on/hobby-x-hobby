@@ -16,12 +16,12 @@ app.get('/api/tweets', async (req, res) => {
     let tweets;
     if (queryTagId) {
       posts = await knex
-        .where("post_to_tags.tag_id", Number(queryTagId))
-        .select("post_id")
-        .from("post_to_tags");
+        .where('post_to_tags.tag_id', Number(queryTagId))
+        .select('post_id')
+        .from('post_to_tags');
 
       const postIds = posts.map((post) => post.post_id);
-      tweets = await knex.whereIn("tweets.id", postIds).select().from("tweets");
+      tweets = await knex.whereIn('tweets.id', postIds).select().from('tweets');
     } else {
       tweets = await knex.select().from('tweets');
     }
@@ -33,11 +33,11 @@ app.get('/api/tweets', async (req, res) => {
           .first()
           .from('users');
         const tagInfo = await knex
-          .table("post_to_tags")
-          .innerJoin("tags", function () {
-            this.on("tags.id", "=", "post_to_tags.tag_id");
+          .table('post_to_tags')
+          .innerJoin('tags', function () {
+            this.on('tags.id', '=', 'post_to_tags.tag_id');
           })
-          .where("post_to_tags.post_id", tweet.id);
+          .where('post_to_tags.post_id', tweet.id);
 
         const tags = tagInfo.map((data) => {
           return { id: data.tag_id, name: data.name };
@@ -63,14 +63,19 @@ app.get('/api/tweets', async (req, res) => {
 
 app.post('/api/tweets', async (req, res) => {
   try {
-    const { user_id, comment, image, tag_id } = req.body;
+    const { user_id, comment, image, tags } = req.body;
 
-    await knex('tweets').insert({
-      user_id,
-      comment,
-      image,
-      tag_id,
-    });
+    const [inserted] = await knex('tweets')
+      .insert({ user_id, comment, image })
+      .returning('id');
+
+    const post_id = inserted.id;
+
+    await Promise.all(
+      tags.map(async (tag) => {
+        await knex('post_to_tags').insert({ post_id: post_id, tag_id: tag });
+      })
+    );
 
     res.status(201).end();
   } catch (error) {
