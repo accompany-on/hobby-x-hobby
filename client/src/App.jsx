@@ -9,13 +9,7 @@ import SignUp from "./components/SignUp";
 export const AppContext = createContext();
 
 function App() {
-  
-  const [nav, setNav] = useState("top");
   const [postList, setPostList] = useState([]);
-  const [title, setTitle] = useState("");
-
-  const [user_id, setUser_id] = useState("");
-  const [link, setLink] = useState("");
   const [tag_id, setTag_id] = useState("");
   const [uploadImage, setUploadImage] = useState("");
 
@@ -26,14 +20,20 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (tag_id === "") return;
+    if (tag_id === "") {
+      fetch("/api/tweets")
+        .then((data) => data.json())
+        .then((data) => setPostList(data));
+      return;
+    }
+
     const tagIdUrl = `/api/tweets?tagId=${tag_id}`;
     fetch(tagIdUrl)
       .then((data) => data.json())
       .then((data) => setPostList(data));
   }, [tag_id]);
 
-  const value = { tag_id, setTag_id, uploadImage, setUploadImage,setPostList  };
+  const value = { tag_id, setTag_id, uploadImage, setUploadImage, setPostList };
 
   return (
     <AppContext.Provider value={value}>
