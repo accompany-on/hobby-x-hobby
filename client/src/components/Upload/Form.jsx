@@ -9,14 +9,15 @@ import { useContext, useState } from 'react';
 import DropDown from '../utils/DropDown';
 import SelectTag from './SelectTag';
 
-export default function Form({handleClose}) {
-  const { uploadImage , setPostList} = useContext(AppContext);
+export default function Form({ handleClose, setIsLoading }) {
+  const { uploadImage, setPostList } = useContext(AppContext);
   const [comment, setComment] = useState('');
   const [tag, setTag] = useState([]);
 
   const expiration = 604800;
 
   async function handleSubmit() {
+    setIsLoading(true)
     const formData = new FormData();
     formData.append('image', uploadImage);
     const url = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_YOUR_IMGBB_API_KEY}&expiration=${expiration}`;
@@ -40,11 +41,12 @@ export default function Form({handleClose}) {
       }),
     });
 
-   await fetch("/api/tweets")
+    await fetch('/api/tweets')
       .then((data) => data.json())
       .then((data) => setPostList(data));
 
-      handleClose()
+    setIsLoading(false)
+    handleClose();
   }
 
   return (
@@ -73,7 +75,7 @@ export default function Form({handleClose}) {
             setComment(e.target.value);
           }}
         />
-       <SelectTag tag={tag} setTag={setTag}/>
+        <SelectTag tag={tag} setTag={setTag} />
         <UploadButton />
         <Button
           variant="contained"
