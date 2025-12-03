@@ -142,3 +142,8 @@ app.use((req, res, next) => {
 app.listen(PORT, () => {
   console.log('Server started on port:' + PORT);
 });
+
+// 認証が必要なAPIにはこんな感じで、authMiddlewareを第二引数に渡してください
+// app.get("/api/users", authMiddleware, async (req, res) => {
+// ..
+// });
