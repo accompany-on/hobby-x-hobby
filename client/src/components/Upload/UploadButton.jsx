@@ -1,6 +1,8 @@
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { useContext } from "react";
+import { AppContext } from '../../App';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -14,7 +16,9 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
+
 export default function UploadButton() {
+  const {setUploadImage} = useContext(AppContext);
   return (
     <Button
       component="label"
@@ -26,7 +30,7 @@ export default function UploadButton() {
       Upload files
       <VisuallyHiddenInput
         type="file"
-        onChange={(event) => console.log(event.target.files)}
+        onChange={(e) => (setUploadImage(e.target.files[0]))}
         multiple
       />
     </Button>
