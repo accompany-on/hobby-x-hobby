@@ -17,6 +17,9 @@ import { useTheme } from "@mui/material/styles";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import auth from "../firebase";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { Navigate } from "react-router-dom";
 
 const providers = [{ id: "credentials", name: "Email and Password" }];
 
@@ -123,7 +126,19 @@ function Title() {
 }
 
 export default function Login() {
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+  });
   const theme = useTheme();
+
+  if (user) {
+    return <Navigate to="/" replace />;
+  }
+
   return (
     <AppProvider theme={theme}>
       <SignInPage

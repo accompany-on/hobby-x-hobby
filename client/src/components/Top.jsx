@@ -1,24 +1,24 @@
-import { useEffect, useState } from 'react';
-import { useAuthContext } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import auth from '../firebase';
-import DropDown from './DropDown';
-import PostList from './PostList';
-import PostPage from './PostPage';
+import { useEffect, useState } from "react";
+import { useAuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import auth from "../firebase";
+import DropDown from "./DropDown";
+import PostList from "./PostList";
+import PostPage from "./PostPage";
 
 function Top() {
-  const [nav, setNav] = useState('top');
-  const [title, setTitle] = useState('');
-  const [comment, setComment] = useState('');
-  const [user_id, setUser_id] = useState('');
-  const [link, setLink] = useState('');
-  const [tag_id, setTag_id] = useState('');
+  const [nav, setNav] = useState("top");
+  const [title, setTitle] = useState("");
+  const [comment, setComment] = useState("");
+  const [user_id, setUser_id] = useState("");
+  const [link, setLink] = useState("");
+  const [tag_id, setTag_id] = useState("");
   const { authUser } = useAuthContext();
-  const [tag, setTag] = useState('');
+  const [tag, setTag] = useState("");
   const [postList, setPostList] = useState([]);
 
   useEffect(() => {
-    fetch('/api/tweets')
+    fetch("/api/tweets")
       .then((data) => data.json())
       .then((data) => setPostList(data));
   }, []);
@@ -39,27 +39,27 @@ function Top() {
 
   useEffect(() => {
     if (!authUser) {
-      return navigation('/login');
+      return navigation("/login");
     }
   }, [authUser, navigation]);
 
   const handleLogout = () => {
     auth.signOut();
-    navigation('/login');
+    navigation("/login");
   };
 
   return (
     <>
-      <button onClick={() => setNav('post')}>＋</button>
-      <button onClick={() => setNav('top')}>🏠</button>
+      <button onClick={() => setNav("post")}>＋</button>
+      <button onClick={() => setNav("top")}>🏠</button>
       <button onClick={handleLogout}>ログアウト</button>
 
-      {nav === 'top' ? (
+      {nav === "top" ? (
         <>
           <DropDown tag={tag} setTag={setTag} />
           <PostList postList={postList} />
         </>
-      ) : nav === 'post' ? (
+      ) : nav === "post" ? (
         <PostPage
           title={title}
           setTitle={setTitle}
