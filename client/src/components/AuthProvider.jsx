@@ -1,10 +1,10 @@
-import { onAuthStateChanged } from 'firebase/auth';
-import { useEffect, useState } from 'react';
-import auth from '../firebase';
-import { AuthContext } from '../context/AuthContext';
+import { onAuthStateChanged } from "firebase/auth";
+import { useEffect, useState } from "react";
+import auth from "../firebase";
+import { AuthContext } from "../context/AuthContext";
 
 export function AuthProvider({ children }) {
-  const [authUser, setAuthUser] = useState('');
+  const [authUser, setAuthUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const value = {
@@ -22,13 +22,5 @@ export function AuthProvider({ children }) {
     };
   }, []);
 
-  if (loading) {
-    return <p>loading...</p>;
-  } else {
-    return (
-      <AuthContext.Provider value={value}>
-        {!loading && children}
-      </AuthContext.Provider>
-    );
-  }
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
