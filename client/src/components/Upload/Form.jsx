@@ -14,30 +14,36 @@ export default function Form({ handleClose, setIsLoading }) {
   const [comment, setComment] = useState('');
   const [tag, setTag] = useState([]);
 
-  const expiration = 604800;
+  // const expiration = 604800;
 
   async function handleSubmit() {
-    setIsLoading(true)
-    const formData = new FormData();
-    formData.append('image', uploadImage);
-    const url = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_YOUR_IMGBB_API_KEY}&expiration=${expiration}`;
-    const params = {
-      method: 'POST',
-      body: formData,
-    };
+    setIsLoading(true);
 
-    const response = await fetch(url, params);
-    const data = await response.json();
-
-    await fetch('/api/tweets', {
+    const res = await fetch('/api/tweets', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
 
       body: JSON.stringify({
         user_id: 1,
         comment: comment,
-        image: data.data.url,
         tags: tag,
+      }),
+    });
+    const { post_id } = await res.json();
+
+    const formData = new FormData();
+    formData.append('image', uploadImage);
+    const imgRes = await fetch(`/api/images/${post_id}`, {
+      method: 'POST',
+      body: formData,
+    });
+    const { url } = await imgRes.json();
+
+    await fetch(`/api/tweets/${post_id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        image: url,
       }),
     });
 
@@ -45,7 +51,7 @@ export default function Form({ handleClose, setIsLoading }) {
       .then((data) => data.json())
       .then((data) => setPostList(data));
 
-    setIsLoading(false)
+    setIsLoading(false);
     handleClose();
   }
 

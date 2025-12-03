@@ -1,14 +1,29 @@
 const express = require('express');
 const knex = require('./knex');
 const path = require('path');
+const fs = require('fs');
 const cors = require('cors');
-
+require('dotenv').config({ path: '../.env.local' });
 const app = express();
+const multer = require('multer');
 const PORT = process.env.PORT || 3000;
+
+const storage = multer.diskStorage({
+  destination(req, file, callback) {
+    callback(null, path.resolve(__dirname, '../uploads'));
+  },
+  filename(req, file, callback) {
+    const uniqueSuffix = Math.random().toString(26).substring(4, 10);
+    callback(null, `${Date.now()}-${uniqueSuffix}-${file.originalname}`);
+  },
+});
+const upload = multer({ storage });
 
 app.use(express.static(path.join(__dirname, '..', 'public')));
 app.use(cors({ origin: 'http://localhost:5173' }));
 app.use(express.json());
+
+let post_id = '';
 
 app.get('/api/tweets', async (req, res) => {
   try {
@@ -61,15 +76,33 @@ app.get('/api/tweets', async (req, res) => {
   }
 });
 
+app.post('/api/images/:post_id', upload.single('image'), async (req, res) => {
+  const expiration = 604800;
+  const { post_id } = req.params;
+  const filePath = req.file.path;
+  const base64Image = fs.readFileSync(filePath, { encoding: 'base64' });
+  const body = new URLSearchParams();
+  body.append('image', base64Image);
+  const url = `https://api.imgbb.com/1/upload?key=${process.env.YOUR_IMGBB_API_KEY}&expiration=${expiration}`;
+  const params = {
+    method: 'POST',
+    body,
+  };
+  const response = await fetch(url, params);
+  const data = await response.json();
+  const imageUrl = data.data.url;
+  res.status(200).json({ url: imageUrl });
+});
+
 app.post('/api/tweets', async (req, res) => {
   try {
-    const { user_id, comment, image, tags } = req.body;
+    const { user_id, comment, tags } = req.body;
 
     const [inserted] = await knex('tweets')
-      .insert({ user_id, comment, image })
+      .insert({ user_id, comment })
       .returning('id');
 
-    const post_id = inserted.id;
+    post_id = inserted.id;
 
     await Promise.all(
       tags.map(async (tag) => {
@@ -77,11 +110,17 @@ app.post('/api/tweets', async (req, res) => {
       })
     );
 
-    res.status(201).json({ message: 'Success!!' });
+    res.status(201).json({ post_id });
   } catch (error) {
     console.error('POST /api/tweets error:', error);
     res.status(500).json({ error: 'failed to insert tweet' });
   }
+});
+
+app.put('/api/tweets/:post_id', async (req, res, next) => {
+  const { post_id } = req.params;
+  await knex('tweets').where('id', post_id).update({ image: req.body.image });
+  res.status(201).end();
 });
 
 app.get('/api/tags', async (req, res) => {
