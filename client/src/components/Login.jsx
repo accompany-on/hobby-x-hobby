@@ -1,3 +1,4 @@
+import * as React from "react";
 import {
   Button,
   FormControl,
@@ -15,57 +16,9 @@ import { SignInPage } from "@toolpad/core/SignInPage";
 import { useTheme } from "@mui/material/styles";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import auth from "../firebase";
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { Navigate } from "react-router-dom";
-import { useAuthContext } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 const providers = [{ id: "credentials", name: "Email and Password" }];
-
-export default function Login() {
-  const navigate = useNavigate();
-  const { authUser, loading } = useAuthContext();
-
-  const theme = useTheme();
-
-  if (loading) {
-    return <p>読み込み中</p>;
-  }
-
-  if (authUser) {
-    return <Navigate to="/" replace />;
-  }
-
-  return (
-    <AppProvider theme={theme}>
-      <SignInPage
-        signIn={async (provider, formData) => {
-          try {
-            await signInWithEmailAndPassword(
-              auth,
-              formData.get("email"),
-              formData.get("password")
-            );
-
-            navigate("/", { replace: true });
-          } catch (e) {
-            alert("ログインに失敗しました: ", e);
-          }
-        }}
-        slots={{
-          title: Title,
-          emailField: CustomEmailField,
-          passwordField: CustomPasswordField,
-          submitButton: CustomButton,
-          signUpLink: SignUpLink,
-          forgotPasswordLink: ForgotPasswordLink,
-        }}
-        slotProps={{ form: { noValidate: true } }}
-        providers={providers}
-      />
-    </AppProvider>
-  );
-}
 
 function CustomEmailField() {
   return (
@@ -92,7 +45,7 @@ function CustomEmailField() {
 }
 
 function CustomPasswordField() {
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -167,4 +120,35 @@ function ForgotPasswordLink() {
 
 function Title() {
   return <h2 style={{ marginBottom: 8 }}>Login</h2>;
+}
+
+export default function Login() {
+  const theme = useTheme();
+  return (
+    <AppProvider theme={theme}>
+      <SignInPage
+        signIn={async (provider, formData) => {
+          try {
+            await signInWithEmailAndPassword(
+              auth,
+              formData.get("email"),
+              formData.get("password")
+            );
+          } catch (e) {
+            alert("ログインに失敗しました: ", e);
+          }
+        }}
+        slots={{
+          title: Title,
+          emailField: CustomEmailField,
+          passwordField: CustomPasswordField,
+          submitButton: CustomButton,
+          signUpLink: SignUpLink,
+          forgotPasswordLink: ForgotPasswordLink,
+        }}
+        slotProps={{ form: { noValidate: true } }}
+        providers={providers}
+      />
+    </AppProvider>
+  );
 }

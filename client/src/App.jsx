@@ -4,6 +4,7 @@ import NavBar from "./components/utils/NavBar";
 import Index from "./components/Index";
 import Login from "./components/Login";
 import PostList from "./components/PostList";
+import SignUp from "./components/SignUp";
 
 export const AppContext = createContext();
 
@@ -41,6 +42,7 @@ function App() {
           <Route path="/" element={<PostList postList={postList} />} />
         </Route>
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
     </AppContext.Provider>
   );
