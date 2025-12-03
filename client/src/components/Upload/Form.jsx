@@ -33,7 +33,7 @@ export default function Form({ handleClose, setIsLoading }) {
 
     const formData = new FormData();
     formData.append('image', uploadImage);
-    const imgRes = await fetch(`/api/images/${post_id}`, {
+    const imgRes = await fetch('/api/images', {
       method: 'POST',
       body: formData,
     });

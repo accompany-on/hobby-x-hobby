@@ -76,9 +76,8 @@ app.get('/api/tweets', async (req, res) => {
   }
 });
 
-app.post('/api/images/:post_id', upload.single('image'), async (req, res) => {
+app.post('/api/images', upload.single('image'), async (req, res) => {
   const expiration = 604800;
-  const { post_id } = req.params;
   const filePath = req.file.path;
   const base64Image = fs.readFileSync(filePath, { encoding: 'base64' });
   const body = new URLSearchParams();
