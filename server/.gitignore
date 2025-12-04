@@ -184,3 +184,5 @@ dist
 
 #写真保存フォルダ
 uploads/
+# firebase agmin key
+firebase-admin-key.json
