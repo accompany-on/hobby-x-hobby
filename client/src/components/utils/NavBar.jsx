@@ -15,7 +15,7 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { signOut } from "firebase/auth";
 import auth from "../../firebase";
 import { useNavigate } from "react-router-dom";
-import UploadModal from "../Upload/Modal";
+import UploadModal from "../upload/Modal";
 import { AppContext } from "../../App";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
