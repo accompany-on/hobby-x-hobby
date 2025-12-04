@@ -1,20 +1,17 @@
+import SendIcon from '@mui/icons-material/Send';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import SendIcon from '@mui/icons-material/Send';
-import UploadButton from './UploadButton';
-import App, { AppContext } from '../../App';
 import { useContext, useState } from 'react';
-import DropDown from '../utils/DropDown';
+import { AppContext } from '../../App';
 import SelectTag from './SelectTag';
+import UploadButton from './UploadButton';
 
 export default function Form({ handleClose, setIsLoading }) {
   const { uploadImage, setPostList } = useContext(AppContext);
   const [comment, setComment] = useState('');
   const [tag, setTag] = useState([]);
-
-  // const expiration = 604800;
 
   async function handleSubmit() {
     setIsLoading(true);

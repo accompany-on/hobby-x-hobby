@@ -178,3 +178,9 @@ dist
 
 .env.sample
 .env.local
+
+#ダブルクォート適用
+.prettierrc.js
+
+#写真保存フォルダ
+uploads/
